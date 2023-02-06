@@ -1,8 +1,35 @@
-import React from "react";
-import Reviews from "./Reviews";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { reviewAdded } from "./reviewsSlice";
 
-function ReviewInput() {
-  return <div>Review Input</div>;
+function ReviewInput({ restaurantId }) {
+  const [ comment, setComment ] = useState("")
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    setComment(e.target.value)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    dispatch(reviewAdded({ comment, restaurantId }))
+    setComment("")
+  }
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label>Comment
+          <input
+            type="textarea"
+            value={comment}
+            onChange={handleChange}
+            />
+        </label>
+        <button type="submit">add review</button>
+      </form>
+    </div>
+  );
 }
 
 export default ReviewInput;
